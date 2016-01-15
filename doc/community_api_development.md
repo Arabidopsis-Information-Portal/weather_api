@@ -214,9 +214,9 @@ The namespace allows your code run independently from apis developed by others. 
 
 * [Structuring your API to create unique services](#api-structure) (2)
 
-* Documenting your API in a metadata description file (3)
+* [Documenting your API in a metadata description file](#describe-metadata) (3)
 
-* Coding your API (4)
+* [Coding your API](#code-api) (4)
 
 * Testing API in a local envinronment (5)
 
@@ -264,7 +264,7 @@ curl -Lk -X POST \
 - Source bash profile to make changes effective
 
 ```
-	$ source  ~/.bash_profile
+$ source  ~/.bash_profile
 ```
 * Run in the terminal
  
@@ -401,9 +401,16 @@ $curl -kL -X DELETE -H "Authorization: Bearer $TOKEN" $ADAMA/testuser1-dev
 ```
 
 
-####<a name="api-structure"></a>Structuring your API to create unique services
+###<a name="api-structure"></a>Structuring your API to create unique services
 
-By now you have prepared yourself for the actual coding.
+By now you have prepared your environment for the actual coding.
+
+In this section we will:
+
+* [Create API Directory Structure](#api-directory-structure)
+* [Initialize Python Virtual Environment in each source folder](#init-virtualenv)
+* [Create Initialization Files](#create-init-files)
+* [Push your API in a GitHub Repository](#push-github). 
 
 For example, you would like to develop a data API that provides current weather data.
 
@@ -411,6 +418,8 @@ You are planning to create two services:
 
 * Weather Data by Geolocation
 * Weather Data by Zipcode
+
+####<a name="api-directory-structure"></a>Create API Directory Structure
 
 You will create two sub-directories in your source root directory to clearly delineate your services.
 
@@ -448,6 +457,8 @@ $cd /software/git/scienceapps/weather_api
 $mkdir -p services/weather_by_zipcode
 $cd /software/git/scienceapps/weather_api/services/weather_by_zipcode
 ```
+
+####<a name="init-virtualenv"></a>Initialize Virtual Environmnet
 
 Initialize virtual environment inside weather by geolocation subdirectory:
 
@@ -493,7 +504,8 @@ $source venv/bin/activate
 
 Now your virtual environment is activated for each service, and you can install additional python packages in the isolated environment.
 
-* **Create Initialization Files**:
+
+####<a name="create-init-files"></a>Create Initialization Files
 
 ADAMA framework requires the presense of empty __init__.py files in each service directory including root service api folder.
 
@@ -584,21 +596,45 @@ The main python module files will be empty for now. You will edit them at later 
 
 API Application Structure:
 
-| Directory                                                             | Comment                        |   | Content     |         |                        |                    |
-|-----------------------------------------------------------------------|--------------------------------|---|-------------|---------|------------------------|--------------------|
-| /software/git/scienceapps/weather_api                                 | Root API directory             |   | services    |         |                        |                    |
-| /software/git/scienceapps/weather_api/services                        | API Services directory         |   | __init__.py |         | weather_by_geolocation | weather_by_zipcode |
-| /software/git/scienceapps/weather_api/services/weather_by_geolocation | Weather by Geolocation Service |   | __init__.py | main.py |                        | metadata.yml       |
-| /software/git/scienceapps/weather_api/services/weather_by_zipcode     | Weather by Zipcode Service     |   | __init__.py | main.py |                        | metadata.yml       |
+| Directory                                   | Comment                        | Content                |
+|---------------------------------------------|--------------------------------|------------------------|
+| weather_api                                 | Root API directory             | services               |
+| weather_api/services                        | API Services directory         | __init__.py            |
+|                                             |                                | weather_by_geolocation |
+|                                             |                                | weather_by_zipcode     |
+| weather_api/services/weather_by_geolocation | Weather by Geolocation Service | __init__.py            |
+|                                             |                                | main.py                |
+|                                             |                                | metadata.yml           |
+| weather_api/services/weather_by_zipcode     | Weather by Zipcode Service     | __init__.py            |
+|                                             |                                | main.py                |
+|                                             |                                | metadata.yml           |
 
-* Commit, and Push your initial API Structure to your github repository
+####<a name="push-github"></a>Push API in a GitHub Repository
 
-	* Login in GitHub, and create a github repository
+* Create a GitHub Repository
+
+	* **Login in GitHub, and create a remote Github Repository**
 
 	So far, we have created [Weaher API GitHub Repository.](https://	github.com/Arabidopsis-Information-Portal/weather_api/tree/master)
 
-	* Copy Repository URL, and syncronize your local with your remote GitHub Repo
+	* **Syncronize your local repo with your remote GitHub Repository**
 	
+		* Copy Repository URL
+		
+		**NOTE:**
+		Our examples uses git URL:
+		
+		```
+		https://github.com/Arabidopsis-Information-Portal/weather_api.git
+		```
+		
+		Generally, your git URL will look like:
+		
+		```
+		<https://github.com/<YOUR_NAME>/<YOUR_REMOTE_REPO_NANE>.git>
+		```
+	  * Run commands in your terminal:
+	  
 	```
 	$cd /software/git/scienceapps/weather_api
 	# see remote repositories associated with a local repo
@@ -616,8 +652,9 @@ upstream	https://github.com/Arabidopsis-Information-Portal/weather_api.git (fetc
 upstream	https://github.com/Arabidopsis-Information-Portal/weather_api.git (push)
 # git pull
 	```
-Add your local changes, commit, and push:
-
+	
+	* **Add your local changes, commit, and push**
+		
 ```
 $ cd /software/git/scienceapps/weather_api/services
 $git status
@@ -659,6 +696,9 @@ To https://github.com/Arabidopsis-Information-Portal/weather_api.git
    635a8f2..5a52395  master -> master
 ```
 
+##<a name="describe-metadata"></a>Describe API Metadata
+
+##<a name="code-api"></a>Code API Services
 
 ##<a name="api-deployment"></a>API Deployment
 
