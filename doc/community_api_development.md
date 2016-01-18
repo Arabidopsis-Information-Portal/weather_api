@@ -4,6 +4,8 @@
 
 **ADAMA** (Araport Data And Microservices API) is a software framework that implements data federation strategy for the [Arabidopsis Information Portal.](https://www.araport.org/) The framework aims to facilitate the data and information exchange for Arabidopsis Community, Researches and Scientists.
 
+Generally speaking, ADAMA is a builder of webservices. It provides the infrastructure necessary to publish a webservice, such as security, scalability, fault tolerance, monitoring, caching, etc. A developer of an adapter can concentrate just in the source and transformations of the data. The complete list of the webservices builders can be found [here.](https://adama-dev.tacc.utexas.edu/docs/adapters/index.html)
+
 **[Prerequisite Software](#prerequisite-software)**
 
 **[Environment Setup](#environment-setup)**
@@ -698,6 +700,30 @@ To https://github.com/Arabidopsis-Information-Portal/weather_api.git
 
 ##<a name="describe-metadata"></a>Describe API Metadata
 
+ADAMA framework requires you provide the minimal metadata description file **metadata.yml** in order to successfully deploy the API, and provide the essential services such security, scalability, and fault tolerance.
+In addition, it provides the discoverability for your API, online interaction with the deployed webservices, provenance and ability to completely document your RESTful API. It follows the [Open API Initiative](https://openapis.org/) to standartize how modern APIs are described. The [Swagger](http://swagger.io/]) Specification is a result of implementation of Open API Initiative, and let you fully describe, produce,  consume and visualize RESTful web services.
+
+You can follow the [Introduction to Metadata Format](https://github.com/Arabidopsis-Information-Portal/adama/blob/master/docs/full/metadata.rst), tutorial how to document [API parameters](https://adama-dev.tacc.utexas.edu/docs/parameters/index.html). After you master the basics you may refer to the full [Swagger/Open API Specification](http://swagger.io/specification/) to learn more, and extend the base case as needed.
+
+**IMPORTANT:**
+The importance of the metadata file cannot be overstated. It **must** conform the YAML format, and pass the validation step during deployment. You would like to double check the conformance using the online  [YAML validators](http://codebeautify.org/yaml-validator) every single time you create/update the metadata file to avoid spurios error messages during deployment of your service.
+
+The table below provides the explanation of a number of descriptors you may use to describe your service as well some additional comments/use cases when it is advisable to use them.
+
+| Parameter        | Description                                                                                                                                                                                                                                                                                                                                                                                            | Requred ? | Example                                         |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|-------------------------------------------------|
+| name             | The name of the adapter                                                                                                                                                                                                                                                                                                                                                                                | yes       | weather_by_zipcode                              |
+| description      | Free form text to describe the purpose of the adapter                                                                                                                                                                                                                                                                                                                                                  | yes       | Provides current weather by country and zipcode |
+| version          | The version of the adapter. It supports [semantic versioning.](http://semver.org/)                                                                                                                                                                                                                                                                                                                     | yes       | 0.1                                             |
+| type             | Type of the adapter. It supports one of the following: query, generic, map_filter, passthrough. The relevant discussion can be found [here.](https://www.araport.org/node/1235)                                                                                                                                                                                                                        | yes       | query                                           |
+| url              | Url for the third party data source the adapter is accessing, if any. Depending on the type of the adapter, this may be for documentation purposes (query and generic), or it may be used directly by Adama to access the service on behalf of the user (map_filter and passthrough).                                                                                                                  | no        | http://api.openweathermap.org/                  |
+| whitelist        | An additional list of ip's or domains that the adapter may need to access. May include additional instructions for the adapter how to process request headers, etc. Please refer to the [Advanced Metadata Usage to see more illustrative examples.](advanced-metadata-usage)                                                                                                                          | no        | api.openweathermap.org                          |
+| main_module      | The name (including the path relative to the root of the git repository) of the main module for this adapter. If omitted, Adama will search for a module named main.*.                                                                                                                                                                                                                                 | yes       | services/weather_by_zipcode                     |
+| notify           | An url that will receive a POST with the data of the new registered adapter once it is ready to receive requests.                                                                                                                                                                                                                                                                                      | no        |                                                 |
+| requirements     | A list of extra modules to add to the adapter at installation time. These modules should be installable via the standard package manager of the language used by the adapter (for example: pip for Python, gem for Ruby, etc.). Please, do not include standard python libraries. For example, if you include json library (which standard for a python distribution) you will get a deployment error. | no        | requests                                        |
+| validate_request | Whether to validate the parameters according to the provided documentation. By default this option is no. If enabled, the parameters of a request are validated before passing control to the user's code in the adapter.                                                                                                                                                                              | no        | no                                              |
+| endpoints        | Documentation about the parameters accepted by this adapter [Documenting parameters.](http://adama.readthedocs.org/en/latest/adapters.html)                                                                                                                                                                                                                                                            | yes       | /search                                         |                      |
+
 ##<a name="code-api"></a>Code API Services
 
 ##<a name="api-deployment"></a>API Deployment
@@ -711,3 +737,22 @@ To https://github.com/Arabidopsis-Information-Portal/weather_api.git
 ###<a name="api-troubleshooting-tips"></a>API Troubleshooting Tips
 
 ## Common Commands used in Developer Workflow
+
+## References
+
+## <a name="references"></a>References
+
+[ADAMA Documentation](http://adama.readthedocs.org/en/latest/)
+
+### <a name="metadata-references"></a>Metadata Format
+
+[Introduction to Metadata Format](https://github.com/Arabidopsis-Information-Portal/adama/blob/master/docs/full/metadata.rst)
+
+[Documenting Metadata Parameters](http://adama.readthedocs.org/en/latest/parameters.html)
+
+[Swagger Reference -  Metadata for RESTful API](http://swagger.io/)
+
+[API Builders - ADAMA Adapters](http://adama.readthedocs.org/en/latest/adapters.html)
+
+[YAML Validator](http://codebeautify.org/yaml-validator)
+
